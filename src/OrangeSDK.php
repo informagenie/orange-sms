@@ -3,6 +3,8 @@
 namespace Informagenie;
 
 use Curl\Curl;
+use Informagenie\Exception\OrangeSDKException;
+use stdClass;
 
 class OrangeSDK
 {
@@ -114,8 +116,15 @@ class OrangeSDK
         $this->curl->setHeader('Content-Type', 'application/json');
 
         $url = '/smsmessaging/v1/outbound/'. urlencode($this->datas['outboundSMSMessageRequest']['senderAddress']) . '/requests';
-        
-        return  $this->curl->post($url, $this->datas);
+
+        $response = $this->curl->post($url, $this->datas);
+
+        if($response instanceof stdClass)
+        {
+            return $response;
+        }
+
+        throw new OrangeSDKException('Error while sending SMS', 0, $this->curl);
     }
 
     protected function getClientId()
