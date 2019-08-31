@@ -13,13 +13,15 @@ class OrangeSDK
 
     protected $token;
 
-    public $curl;
+    protected $datas = [];
 
+    public $curl;
 
     public function __construct(Array $credentials)
     {
         $this->credentials = $credentials;
         $this->curl = new Curl(self::BASE_URI);
+        $this->getToken();
     }
 
     public function getToken(): String{
@@ -47,6 +49,73 @@ class OrangeSDK
         }
         
         return $this->token;
+    }
+
+    /**
+     * Set message to Send
+     * 
+     * @param String $text text message
+     * @param OrangeSDK
+     */
+    public function message(String $text): OrangeSDK {
+
+        $this->datas["outboundSMSMessageRequest"]['outboundSMSTextMessage']['message'] = $text;
+
+        return $this;
+    }
+
+    /**
+     * Set sender's phone number
+     * 
+     * @param Int $number Phone sender
+     * @return OrangeSDK
+     */
+    public function from(Int $number): OrangeSDK {
+
+        $this->datas['outboundSMSMessageRequest']['senderAddress'] = 'tel:+'. $number;
+
+        return $this;
+    }
+
+    /**
+     * Set sender's Name
+     * 
+     * @param String $name Sender's name
+     * @return OrangeSDK
+     */
+    public function as(String $name): OrangeSDK {
+
+        $this->datas['outboundSMSMessageRequest']['senderName'] = $name;
+
+        return $this;
+    }
+
+    /**
+     * Set receiver's phone number
+     * 
+     * @param $number : Phone sender
+     * @return OrangeSDK
+     */
+    public function to(Int $number): OrangeSDK {
+
+        $this->datas['outboundSMSMessageRequest']['address'] = 'tel:+'. $number;
+
+        return $this;
+    }
+
+    /**
+     * Send SMS
+     * 
+     * @return bool|OrangeSDKException
+     */
+    public function send(){
+
+        $this->curl->setHeader('Authorization', 'Bearer ' . $this->getToken());
+        $this->curl->setHeader('Content-Type', 'application/json');
+
+        $url = '/smsmessaging/v1/outbound/'. urlencode($this->datas['outboundSMSMessageRequest']['senderAddress']) . '/requests';
+        
+        return  $this->curl->post($url, $this->datas);
     }
 
     protected function getClientId()

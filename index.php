@@ -10,11 +10,13 @@ $sms = new OrangeSDK([
     'authorization_header' => 'Basic Q0R5WU5OeWdHc3RLZEdXQU40MFZ1NjZqT2QyQVBwOG86VTltTk15dlR4cG9OQVNFbw=='
 ]);
 
-print_r($sms->getToken());
 
-/*
-$sms->message('Code de verification 4')
-    ->from('+243824109491')
-    ->to('+2430971315850')
+
+$message = $sms->message('Je teste a nouveau le message')
+    ->from(243824109491)
+    ->as('Stop Ebola')
+    ->to(243971315850)
     ->send();
-    */
+echo '<pre>';
+print_r($message);
+echo '</pre>';
