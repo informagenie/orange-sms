@@ -7,7 +7,7 @@ A PHP library to send SMS via Orange SMS API
 You need to have composer installed in your computer before doing this
 
 ```bash
-composer require informagenie/orange-api-sms
+composer require informagenie/orange-sms
 ```
 
 ## Loading
