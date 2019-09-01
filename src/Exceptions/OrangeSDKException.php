@@ -1,15 +1,15 @@
 <?php 
 
-namespace Informagenie\Exception;
+namespace Informagenie\Exceptions;
 
 class OrangeSDKException extends \Exception
 {
     
     public $client;
 
-    public function __construct($message, $code = 0, $client)
+    public function __construct($message, $client)
     {
-        parent::__construct($message, $code);
+        parent::__construct($message, 0);
 
         $this->client = $client;
     }

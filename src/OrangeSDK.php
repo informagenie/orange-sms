@@ -3,7 +3,7 @@
 namespace Informagenie;
 
 use Curl\Curl;
-use Informagenie\Exception\OrangeSDKException;
+use Informagenie\Exceptions\OrangeSDKException;
 use stdClass;
 
 class OrangeSDK
@@ -29,9 +29,9 @@ class OrangeSDK
     /**
      * Get generated token
      * 
-     * @return String
+     * @return stdClass|OrangeSDKException
      */
-    public function getToken(): String{
+    public function getToken(){
 
         $authorizationHeader = $this->getAuthorizationHeader();
 
@@ -47,15 +47,18 @@ class OrangeSDK
         
         if(empty($this->token))
         {
-
             $response = $this->curl->post('/oauth/v2/token', [
                 'grant_type' => 'client_credentials'
                 ]);
 
+            if(empty($response->access_token))
+            {
+                throw new OrangeSDKException(print_r($response, true), $this->curl);
+            }
             $this->token = $response->access_token;
         }
         
-        return $this->token;
+        return $response;
     }
 
     /**
@@ -124,12 +127,12 @@ class OrangeSDK
 
         $response = $this->curl->post($url, $this->datas);
 
-        if($response instanceof stdClass)
+        if(isset($response->outboundSMSMessageRequest))
         {
             return $response;
         }
 
-        throw new OrangeSDKException('Error while sending SMS', 0, $this->curl);
+        throw new OrangeSDKException('Error while sending SMS ', $this->curl);
     }
 
     protected function getClientId()
