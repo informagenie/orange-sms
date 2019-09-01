@@ -26,6 +26,11 @@ class OrangeSDK
         $this->getToken();
     }
 
+    /**
+     * Get generated token
+     * 
+     * @return String
+     */
     public function getToken(): String{
 
         $authorizationHeader = $this->getAuthorizationHeader();
@@ -108,7 +113,7 @@ class OrangeSDK
     /**
      * Send SMS
      * 
-     * @return bool|OrangeSDKException
+     * @return stdClass|OrangeSDKException
      */
     public function send(){
 

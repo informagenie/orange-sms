@@ -10,12 +10,6 @@ You need to have composer installed in your computer before doing this
 composer require informagenie/orange-sms
 ```
 
-## Loading
-
-```php
-require_once __DIR__.'/vendor/autoload.php';
-```
-
 ## Quick setup
 
 Get `client_id` and `client_secret` [here](https://developer.orange.com/myapps/) or [follow guide](https://informagenie.com/3141/envoyer-sms-orange-sms-api/)
@@ -31,19 +25,43 @@ Get `client_id` and `client_secret` [here](https://developer.orange.com/myapps/)
         'client_secret' => 'your_client_secret'
     ];
 
-    /**
-     *  You can use directly authorization header instead of client_id and client_secret
-     *  $credentials = [
-     *      'authorization_header' => 'Basic xxx...',
-     *  ];
+    /*
+       You can use directly authorization header instead of client_id and client_secret
+       $credentials = [
+           'authorization_header' => 'Basic xxx...',
+       ];
      */
 
     $sms = new OrangeSdk($credentials);
 
-    $sms->message('Je teste à nouveau le message')
-        ->from(243824109491)    // Sender phone's number
-        ->as('Stop Ebola')      // Sender's name (optional)
-        ->to(243971315850)      // Recipiant phone's number
-        ->send();               // return true/false
+    $response = $sms->message('Hello world !')
+        ->from(243820000000)       // Sender phone's number
+        ->as('Informagenie')      // Sender's name (optional)
+        ->to(2439000000000)      // Recipiant phone's number
+        ->send();
 
+```
+If all is ok, $response should be like this :
+
+```
+stdClass Object
+(
+    [outboundSMSMessageRequest] => stdClass Object
+        (
+            [address] => Array
+                (
+                    [0] => tel:+243900000000
+                )
+
+            [senderAddress] => tel:+243820000000
+            [senderName] => Stop Ebola
+            [outboundSMSTextMessage] => stdClass Object
+                (
+                    [message] => Hello World
+                )
+
+            [resourceURL] => https://api.orange.com/smsmessaging/v1/outbound/tel:+243820000000/requests/9d523078-1d3d-4c90-8984-7216e18deb97
+        )
+
+)
 ```
