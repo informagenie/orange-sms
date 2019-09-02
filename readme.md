@@ -1,6 +1,6 @@
 # Orange SMS API SDK
 
-A PHP library to send SMS via Orange SMS API
+A PHP library to send SMS through Orange SMS API
 
 ## Installation
 
@@ -32,7 +32,7 @@ Get `client_id` and `client_secret` [here](https://developer.orange.com/myapps/)
        ];
      */
 
-    $sms = new OrangeSdk($credentials);
+    $sms = new OrangeSDK($credentials);
 
     $response = $sms->message('Hello world !')
         ->from(243820000000)       // Sender phone's number
