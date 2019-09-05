@@ -54,7 +54,7 @@ stdClass Object
                 )
 
             [senderAddress] => tel:+243820000000
-            [senderName] => Stop Ebola
+            [senderName] => Informagenie
             [outboundSMSTextMessage] => stdClass Object
                 (
                     [message] => Hello World

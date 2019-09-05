@@ -57,8 +57,7 @@ class OrangeSDK
             }
             $this->token = $response->access_token;
         }
-        
-        return $response;
+        return $response ?? $this->token;
     }
 
     /**
