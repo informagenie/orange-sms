@@ -17,11 +17,15 @@ class OrangeSDK
 
     protected $datas = [];
 
+
+    protected $version = '3';
+
     public $curl;
 
-    public function __construct(Array $credentials)
+    public function __construct(Array $credentials, $version='3')
     {
         $this->credentials = $credentials;
+        $this->version = trim($version, 'v');
         $this->curl = new Curl(self::BASE_URI);
         $this->getToken();
     }
@@ -47,7 +51,7 @@ class OrangeSDK
         
         if(empty($this->token))
         {
-            $response = $this->curl->post('/oauth/v2/token', [
+            $response = $this->curl->post('/oauth/v'. $this->version . '/token', [
                 'grant_type' => 'client_credentials'
                 ]);
 

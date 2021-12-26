@@ -25,6 +25,8 @@ Get `client_id` and `client_secret` [here](https://developer.orange.com/myapps/)
         'client_secret' => 'your_client_secret'
     ];
 
+    $version = 'v3'; //per default 
+
     /*
        You can use directly authorization header instead of client_id and client_secret
        $credentials = [
@@ -34,7 +36,7 @@ Get `client_id` and `client_secret` [here](https://developer.orange.com/myapps/)
 
     $sms = new OrangeSDK($credentials);
 
-    $response = $sms->message('Hello world !')
+    $response = $sms->message('Hello world !', $version)
         ->from(243820000000)       // Sender phone's number
         ->as('Informagenie')      // Sender's name (optional)
         ->to(2439000000000)      // Recipiant phone's number
